@@ -1,10 +1,10 @@
 ## Checklist Release DR1
 
 ### 1. Xử lý với nhánh build
-- [] 1.1 Tạo một branch mới từ main và đặt tên theo format sprint/DR-SprintXX (ví dụ sprint/DR-Sprint85)
-- [] 1.2 Merge tất cả các branch feature đã hoàn thành trong giai đoạn này vào sprint/DR-SprintXX. Lúc này sprint/DR-SprintXX chính là branch build release android
-- [] 1.3 Từ sprint/DR-SprintXX hãy tạo một branch mới đặt tên theo format sprint/DR-SprintXX-iOS
-- [] 1.4 Merge branch main_iOS_v3 vào sprint/DR-SprintXX-iOS. Lúc này sprint/DR-SprintXX-iOS chính là branch build release ios
+- [] 1.1 Tạo một branch mới từ `main` và đặt tên theo format `sprint/DR-SprintXX` (ví dụ `sprint/DR-Sprint85`)
+- [] 1.2 Merge tất cả các branch feature đã hoàn thành trong giai đoạn này vào `sprint/DR-SprintXX`. Lúc này `sprint/DR-SprintXX` chính là branch build release android
+- [] 1.3 Từ `sprint/DR-SprintXX` hãy tạo một branch mới đặt tên theo format `sprint/DR-SprintXX-iOS`
+- [] 1.4 Merge branch main_iOS_v3 vào `sprint/DR-SprintXX-iOS`. Lúc này `sprint/DR-SprintXX-iOS` chính là branch build release ios
 
 ### 2. Setup + Build
 
@@ -23,5 +23,5 @@ Hiện tại có thể bấm `Iwave` > `Generate Bundle Version` để tự đ�
 
 ### 4. Xử lý sau khi đã release
 
-- [] 4.1 Tạo tag github và đặt tên theo format DRa_x.x.x / DRi_x.x.x (ví dụ DRa_3.1.2)
-- [] 4.2 Merge branch sprint/DR-SprintXX về main và merge branch sprint/DR-SprintXX-iOS về main_iOS_v3
+- [] 4.1 Tạo tag github và đặt tên theo format `DRa_x.x.x` / `DRi_x.x.x` (ví dụ `DRa_3.1.2`)
+- [] 4.2 Merge branch `sprint/DR-SprintXX` về `main` và merge branch `sprint/DR-SprintXX-iOS` về `main_iOS_v3`
