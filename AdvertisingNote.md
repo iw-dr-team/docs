@@ -70,7 +70,7 @@ Sau khi import xong thì bạn có thể xem [docs](https://support.applovin.com
 - [ ] Applovin Max có hỗ trợ tính năng [Mediation Debugger](https://support.applovin.com/en/max/unity/testing-networks/mediation-debugger) để debug quảng cáo trong quá trình test.
 - [ ] Sẽ không có ads trả về nếu bundle id trong project không khớp với bundle id trong dashboard của Applovin Max, hãy kiểm tra kỹ trước khi build test.
 
-***Đối với LevelPlay**
+***Đối với LevelPlay***
 - [ ] LevelPlay không có hỗ trợ ad unit id test giống Admob
 - [ ] LevelPlay có hỗ trợ tính năng [Test Suite](https://docs.unity.com/en-us/grow/levelplay/sdk/unity/integration-test-suite) để debug quảng cáo trong quá trình test.
 
