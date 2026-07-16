@@ -96,4 +96,34 @@ Sau khi import xong thì bạn có thể xem [docs](https://support.applovin.com
 ## 3. Cách quảng cáo được load về và phân phối từ ad network, nguyên nhân conflict giữa các ad network và cách giải quyết.
 ### 3.1 Cách quảng cáo được load về và phân phối từ ad network
 Khi tích hợp quảng cáo và add thêm các adnetwork, bạn sẽ thấy có nhiều file .xml chứa đựng các thông tin config cho adnetwork đó. Vậy vì sao chỉ dựa vào file .xml này mà có thể lấy được quảng cáo từ adnetwork?
+- Lúc tôi mới bắt đầu làm việc với quảng cáo, tôi cũng thắc mắc rằng, khi tôi add một ad network vào project thì chỉ thấy git change báo có thêm một file .xml, file này chẳng chứa thứ gì liên quan tới logic vậy sao nó có thể kéo được ads về để show.
+- Sau một thời gian tìm hiểu, tôi mới biết rằng, các ad network đều có một server riêng, khi bạn add ad network vào project thì file .xml này sẽ chứa các thông tin config để kết nối tới server của ad network đó.
+- Lúc build hoặc lúc resolve thì hệ thống sẽ kéo thư viện của ad network đó về và cache lại trong .gradle, nó thường là các file .aar chứa adapter và sdk của ad network đó.
+- Phần adapter sẽ có nhiệm vụ kết nối sdk của ad network đó với mediation chính (ví dụ: Admob, Applovin Max, LevelPlay). Vì trong code của bạn chỉ thao tác với API của mediation chính, nên adapter sẽ là cầu nối để gọi tới sdk của ad network đó.
+- Lúc này bộ phận Monet sẽ setup trên dashboard của mediation chính waterfall cho các ad network để phân phối phù hơp.
 
+![image](Docs/Image/applovin-adapter.png)
+![image](Docs/Image/ApplovinSDK.png)
+
+- Như 2 ảnh minh họa trên, bạn có thể thấy răng tôi tìm thấy thư viện của adapter Applovin có version 13.6.2 trùng với version unity 8.7.3 mà tôi đã add vào cho mediation chính là Admob, nó được cach trong folder .gradle.
+- Hoàn toàn có thể tìm thấy nhiều adapter khác của các adnetwork được cache trong đó.
+
+![image](Docs/Image/admob-mediation.png)
+
+- Sơ đồ tóm tắt đơn giản
+
+```
+Dependencies.xml → EDM4U/Gradle resolve → Maven repository / Gradle cache → Mediation SDK + Adapter + Ad Network SDK → Runtime request → Ad Network server → Hiển thị quảng cáo
+```
+
+### 3.2 Nguyên nhân conflict giữa các ad network và cách giải quyết
+- Đây là vấn đề mà thường xuyên gặp khi tích hợp nhiều mediation sdk vào project và mỗi mediation đều add thêm nhiều ad network khác nhau. Khi đó sẽ xảy ra conflict giữa các ad network với nhau dẫn tới lỗi build hoặc khi build ios sẽ không sinh ra file .workspace.
+- Nguyên nhân conflict thường do các ad network ở 2 mediation khác nhau (hoặc cùng mediation) sử dụng cùng dependency nhưng version của dependencies khác nhau.
+- 
+
+![image](Docs/Image/conflict.png)
+
+Hình bên trên là ví dụ minh họa về vấn đề conflict giữa 2 ad network là facebook và inmobi (vì facebook phụ thuộc vào google ads sdk 12.0 còn inmob phụ thuộc vào google ads sdk 13.0).
+Để resolve được thì buộc phải đưa 2 medation kia về chung một phụ thuộc. Mình đã chọn nâng version facebook để nó phụ thuộc vào google ads sdk 13.0
+
+- Bạn có thể nâng/sửa version của các ad network bằng cách sửa file dependencies (.xml) hoặc sửa luôn trong podfile đối với build ios
