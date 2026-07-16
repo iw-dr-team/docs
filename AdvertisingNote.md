@@ -71,5 +71,29 @@ Sau khi import xong thì bạn có thể xem [docs](https://support.applovin.com
 - [ ] Sẽ không có ads trả về nếu bundle id trong project không khớp với bundle id trong dashboard của Applovin Max, hãy kiểm tra kỹ trước khi build test.
 
 ***Đối với LevelPlay**
+- [ ] LevelPlay không có hỗ trợ ad unit id test giống Admob
+- [ ] LevelPlay có hỗ trợ tính năng [Test Suite](https://docs.unity.com/en-us/grow/levelplay/sdk/unity/integration-test-suite) để debug quảng cáo trong quá trình test.
 
+### 2.2 Trước khi update version SDK thì nên làm gì?
+- [ ] Trước khi update version SDK thì nên đọc kỹ changelog của SDK để nắm được các thay đổi trong các version mới, tránh việc update xong bị lỗi không biết nguyên nhân do đâu.
+[Google mobile ads changelog](https://github.com/googleads/googleads-mobile-unity/releases)
+[AppLovin Max changelog](https://github.com/AppLovin/AppLovin-MAX-Unity-Plugin/releases)
+[LevelPlay changelog](https://docs.unity.com/en-us/grow/levelplay/sdk/android/changelog)
+
+- [ ] Nếu có bug hoặc lỗi phát sinh sau khi update version SDK thì nên vào phần issue từ repo github của SDK để tìm kiếm xem có ai gặp lỗi tương tự không, nếu không thì hãy tìm tới các nguồn thông tin khác.
+- [ ] Lưu ý: Repo của LevelPlay không có phần issue
+
+### 2.3 Lưu ý về callback
+- [ ] Theo tài liệu của cả 3 mediation đều khuyến cao rằng các callback của quảng cáo nên được gọi trong main thread.
+- [ ] Đối với tracking ad_impression nằm trong callback OnAdPaid (Admob), OnAdRevenuePaidEvent (Applovin Max)... thì KHÔNG nên gọi trong main thread vì sẽ gây delay và có ảnh hưởng đến chỉ số tracking.
+- [ ] Callback  OnAdRevenuePaidEvent (Applovin Max) và OnImpressionDataReady (LevelPlay) trả về ads info rất đầy đủ. Tuy nhiên callback OnAdPaid (Admob) chỉ trả về AdValue, nếu muốn lấy thêm thông tin về như AdNetwork thì bạn cần phải gọi thêm hàm GetResponseInfo() (tham khảo [docs](https://developers.google.com/admob/unity/response-info?hl=en)).
+- [ ] Đối với reward ads, phần callback sẽ có thêm event OnAdReceivedRewardEvent (Applovin Max), OnAdRewarded (LevelPlay), OnUserEarnedReward (Admob). Event này thông báo rằng user đã được nhận reward, dựa vào event này bạn có thể tạo flag và custom thêm cho event CloseAd để bắt được trường hợp user skip reward (trên android).
+
+### 2.4: Kiểm tra tracking ad_impression
+- [ ] Nếu bạn sử dụng firebase analytics để tracking ad_impresion thì hãy sủ dụng [debug view](https://firebase.google.com/docs/analytics/debugview?utm_source=google&utm_medium=cpc&utm_campaign=Cloud-SS-DR-Firebase-FY26-global-gsem-1713590&utm_content=text-ad&utm_term=KW_firebase&gclsrc=aw.ds&gad_source=1&gad_campaignid=23417478209&gbraid=0AAAAADpUDOgm7st3XuLn4n5XlxNbn9eN1&gclid=Cj0KCQjwguLSBhDLARIsAH-yPrE2pZYMO_d8o-3LWiliw72kEO_J0WN2sIhiL0V5vp_pB96aubB__64aAk7AEALw_wcB#ios+) của firebase để kiểm tra và chắc chắn răng event đã được bắn thành công lên firebase.
+- [ ] Nếu bạn sủ dụng Admob, khi đã connect firebase với Admob thì event ad_impression sẽ được bắn lên tự động. Lúc này hãy trao đổi với bộ phận marketing để nắm được yêu cầu cụ thể và điều chỉnh cho phù hợp.
+
+## 3. Cách quảng cáo được load về và phân phối từ ad network, nguyên nhân conflict giữa các ad network và cách giải quyết.
+### 3.1 Cách quảng cáo được load về và phân phối từ ad network
+Khi tích hợp quảng cáo và add thêm các adnetwork, bạn sẽ thấy có nhiều file .xml chứa đựng các thông tin config cho adnetwork đó. Vậy vì sao chỉ dựa vào file .xml này mà có thể lấy được quảng cáo từ adnetwork?
 
