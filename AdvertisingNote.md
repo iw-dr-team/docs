@@ -102,13 +102,13 @@ Khi tích hợp quảng cáo và add thêm các adnetwork, bạn sẽ thấy có
 - Phần adapter sẽ có nhiệm vụ kết nối sdk của ad network đó với mediation chính (ví dụ: Admob, Applovin Max, LevelPlay). Vì trong code của bạn chỉ thao tác với API của mediation chính, nên adapter sẽ là cầu nối để gọi tới sdk của ad network đó.
 - Lúc này bộ phận Monet sẽ setup trên dashboard của mediation chính waterfall cho các ad network để phân phối phù hơp.
 
-![image](Docs/Image/applovin-adapter.png)
-![image](Docs/Image/ApplovinSDK.png)
+![image](Image/applovin-adapter.png)
+![image](Image/ApplovinSDK.png)
 
 - Như 2 ảnh minh họa trên, bạn có thể thấy răng tôi tìm thấy thư viện của adapter Applovin có version 13.6.2 trùng với version unity 8.7.3 mà tôi đã add vào cho mediation chính là Admob, nó được cach trong folder .gradle.
 - Hoàn toàn có thể tìm thấy nhiều adapter khác của các adnetwork được cache trong đó.
 
-![image](Docs/Image/admob-mediation.png)
+![image](Image/admob-mediation.png)
 
 - Sơ đồ tóm tắt đơn giản
 
@@ -121,7 +121,7 @@ Dependencies.xml → EDM4U/Gradle resolve → Maven repository / Gradle cache �
 - Nguyên nhân conflict thường do các ad network ở 2 mediation khác nhau (hoặc cùng mediation) sử dụng cùng dependency nhưng version của dependencies khác nhau.
 - 
 
-![image](Docs/Image/conflict.png)
+![image](Image/conflict.png)
 
 Hình bên trên là ví dụ minh họa về vấn đề conflict giữa 2 ad network là facebook và inmobi (vì facebook phụ thuộc vào google ads sdk 12.0 còn inmob phụ thuộc vào google ads sdk 13.0).
 Để resolve được thì buộc phải đưa 2 medation kia về chung một phụ thuộc. Mình đã chọn nâng version facebook để nó phụ thuộc vào google ads sdk 13.0
