@@ -119,11 +119,20 @@ Dependencies.xml → EDM4U/Gradle resolve → Maven repository / Gradle cache �
 ### 3.2 Nguyên nhân conflict giữa các ad network và cách giải quyết
 - Đây là vấn đề mà thường xuyên gặp khi tích hợp nhiều mediation sdk vào project và mỗi mediation đều add thêm nhiều ad network khác nhau. Khi đó sẽ xảy ra conflict giữa các ad network với nhau dẫn tới lỗi build hoặc khi build ios sẽ không sinh ra file .workspace.
 - Nguyên nhân conflict thường do các ad network ở 2 mediation khác nhau (hoặc cùng mediation) sử dụng cùng dependency nhưng version của dependencies khác nhau.
-- 
 
 ![image](Image/conflict.png)
 
 Hình bên trên là ví dụ minh họa về vấn đề conflict giữa 2 ad network là facebook và inmobi (vì facebook phụ thuộc vào google ads sdk 12.0 còn inmob phụ thuộc vào google ads sdk 13.0).
 Để resolve được thì buộc phải đưa 2 medation kia về chung một phụ thuộc. Mình đã chọn nâng version facebook để nó phụ thuộc vào google ads sdk 13.0
 
+![image](Image/conflict_2.png)
+
+Hình bên trên là ví dụ mình họa về vấn đề conflict giữa cùng một ad network là Moloco nhưng ở 2 mediation khác nhau (vì GoogleMobileAdsMediationMoloco đang phụ thuộc vào MolocoSDKiOS 4.6.0 còn IronSourceMolocoAdapter đang phụ thuộc vào MolocoSDKiOS 4.5.0).
+Để resolve được thì mình đã chọn nâng version IronSourceMolocoAdapter để nó phụ thuộc vào MolocoSDKiOS 4.6.0
+
 - Bạn có thể nâng/sửa version của các ad network bằng cách sửa file dependencies (.xml) hoặc sửa luôn trong podfile đối với build ios
+
+- Lưu ý: 
+
+- [ ] Hãy kiểm tra changelog của các ad network tìm ra version phù hợp để không bị conflict sự phụ thuộc, đừng nâng version bữa bãi và đợi may mắn.
+- [ ] Vì thư viện của các ad network sẽ được tải từ server về nên có trường hợp mất internet hoặc server bị hỏng sẽ không down được thư viện về. Đây là trường hợp khá phổ biến khi mình thực hiện lệnh `pod install` và đã gặp trường hợp báo đường dẫn đến repo chứa version của ad network đó không tồn tại (dường như sau khi lỗi thì nhà phát hành đã xóa version đó đi).
