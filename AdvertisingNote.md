@@ -95,12 +95,12 @@ Sau khi import xong thì bạn có thể xem [docs](https://support.applovin.com
 
 ## 3. Cách quảng cáo được load về và phân phối từ ad network, nguyên nhân conflict giữa các ad network và cách giải quyết.
 ### 3.1 Cách quảng cáo được load về và phân phối từ ad network
-Khi tích hợp quảng cáo và add thêm các adnetwork, bạn sẽ thấy có nhiều file .xml chứa đựng các thông tin config cho adnetwork đó. Vậy vì sao chỉ dựa vào file .xml này mà có thể lấy được quảng cáo từ adnetwork?
+Khi tích hợp quảng cáo và add thêm các adnetwork, bạn sẽ thấy có nhiều file .xml chứa thông tin dependency cho adnetwork đó. Vậy vì sao chỉ dựa vào file .xml này mà có thể lấy được quảng cáo từ adnetwork?
 - Lúc tôi mới bắt đầu làm việc với quảng cáo, tôi cũng thắc mắc rằng, khi tôi add một ad network vào project thì chỉ thấy git change báo có thêm một file .xml, file này chẳng chứa thứ gì liên quan tới logic vậy sao nó có thể kéo được ads về để show.
-- Sau một thời gian tìm hiểu, tôi mới biết rằng, các ad network đều có một server riêng, khi bạn add ad network vào project thì file .xml này sẽ chứa các thông tin config để kết nối tới server của ad network đó.
-- Lúc build hoặc lúc resolve thì hệ thống sẽ kéo thư viện của ad network đó về và cache lại trong .gradle, nó thường là các file .aar chứa adapter và sdk của ad network đó.
+- Sau một thời gian tìm hiểu, tôi mới biết rằng file .xml không trực tiếp chứa logic gọi server quảng cáo. Nó chủ yếu khai báo native dependency để External Dependency Manager for Unity (EDM4U), Gradle hoặc CocoaPods biết cần tải mediation SDK, adapter và SDK gốc của ad network nào.
+- Lúc build hoặc lúc resolve thì hệ thống sẽ kéo thư viện của ad network đó về và cache lại trong .gradle hoặc Pods, nó thường là các file .aar/.xcframework chứa adapter và sdk của ad network đó.
 - Phần adapter sẽ có nhiệm vụ kết nối sdk của ad network đó với mediation chính (ví dụ: Admob, Applovin Max, LevelPlay). Vì trong code của bạn chỉ thao tác với API của mediation chính, nên adapter sẽ là cầu nối để gọi tới sdk của ad network đó.
-- Lúc này bộ phận Monet sẽ setup trên dashboard của mediation chính waterfall cho các ad network để phân phối phù hơp.
+- Lúc runtime, app gửi request qua mediation SDK. Mediation SDK đọc cấu hình ad unit/placement từ dashboard, sau đó phân phối request tới các ad network theo bidding, waterfall hoặc hybrid tùy setup của bộ phận Monet.
 
 ![image](Image/applovin-adapter.png)
 ![image](Image/ApplovinSDK.png)
@@ -113,8 +113,10 @@ Khi tích hợp quảng cáo và add thêm các adnetwork, bạn sẽ thấy có
 - Sơ đồ tóm tắt đơn giản
 
 ```
-Dependencies.xml → EDM4U/Gradle resolve → Maven repository / Gradle cache → Mediation SDK + Adapter + Ad Network SDK → Runtime request → Ad Network server → Hiển thị quảng cáo
+Dependencies.xml → EDM4U/Gradle/CocoaPods resolve → Maven/Pods cache → Mediation SDK + Adapter + Ad Network SDK → Runtime request → Mediation config → Ad Network server → Hiển thị quảng cáo
 ```
+
+- Tài liệu chuyên sâu hơn: [Advertising Deep Dive](AdvertisingDeepDive.md)
 
 ### 3.2 Nguyên nhân conflict giữa các ad network và cách giải quyết
 - Đây là vấn đề mà thường xuyên gặp khi tích hợp nhiều mediation sdk vào project và mỗi mediation đều add thêm nhiều ad network khác nhau. Khi đó sẽ xảy ra conflict giữa các ad network với nhau dẫn tới lỗi build hoặc khi build ios sẽ không sinh ra file .workspace.
