@@ -51,7 +51,7 @@ Sau khi import xong thì bạn có thể xem [docs](https://support.applovin.com
 
 - [Repository](https://github.com/ironsource-mobile/Unity-sdk)
 - [Release](https://github.com/ironsource-mobile/Unity-sdk/releases)
-- [Changelog](https://docs.unity.com/en-us/grow/levelplay/sdk/android/changelog)
+- [Changelog](https://docs.unity.com/en-us/grow/levelplay/sdk/unity/changelog)
 
 Để tích hợp LevelPlay vào Unity bạn có thể download file .unitypackage từ release và import vào project của bạn hoặc dùng Unity Package Manager (UPM) để cài đặt AdsMediation (com.unity.services.levelplay).
 
@@ -84,13 +84,13 @@ Sau khi import xong thì bạn có thể xem [docs](https://support.applovin.com
 - [ ] Lưu ý: Repo của LevelPlay không có phần issue
 
 ### 2.3 Lưu ý về callback
-- [ ] Theo tài liệu của cả 3 mediation đều khuyến cao rằng các callback của quảng cáo nên được gọi trong main thread.
+- [ ] Để an toàn, các xử lý liên quan tới UnityEngine (ví dụ: gọi UnityEvent, gọi UI...) thì nên thực hiện trong main thread. Nếu callback trả về từ ad network không nằm trong main thread thì bạn cần phải dispatch về main thread trước khi thực hiện các xử lý liên quan tới UnityEngine.
 - [ ] Đối với tracking ad_impression nằm trong callback OnAdPaid (Admob), OnAdRevenuePaidEvent (Applovin Max)... thì KHÔNG nên gọi trong main thread vì sẽ gây delay và có ảnh hưởng đến chỉ số tracking.
 - [ ] Callback  OnAdRevenuePaidEvent (Applovin Max) và OnImpressionDataReady (LevelPlay) trả về ads info rất đầy đủ. Tuy nhiên callback OnAdPaid (Admob) chỉ trả về AdValue, nếu muốn lấy thêm thông tin về như AdNetwork thì bạn cần phải gọi thêm hàm GetResponseInfo() (tham khảo [docs](https://developers.google.com/admob/unity/response-info?hl=en)).
 - [ ] Đối với reward ads, phần callback sẽ có thêm event OnAdReceivedRewardEvent (Applovin Max), OnAdRewarded (LevelPlay), OnUserEarnedReward (Admob). Event này thông báo rằng user đã được nhận reward, dựa vào event này bạn có thể tạo flag và custom thêm cho event CloseAd để bắt được trường hợp user skip reward (trên android).
 
 ### 2.4: Kiểm tra tracking ad_impression
-- [ ] Nếu bạn sử dụng firebase analytics để tracking ad_impresion thì hãy sủ dụng [debug view](https://firebase.google.com/docs/analytics/debugview?utm_source=google&utm_medium=cpc&utm_campaign=Cloud-SS-DR-Firebase-FY26-global-gsem-1713590&utm_content=text-ad&utm_term=KW_firebase&gclsrc=aw.ds&gad_source=1&gad_campaignid=23417478209&gbraid=0AAAAADpUDOgm7st3XuLn4n5XlxNbn9eN1&gclid=Cj0KCQjwguLSBhDLARIsAH-yPrE2pZYMO_d8o-3LWiliw72kEO_J0WN2sIhiL0V5vp_pB96aubB__64aAk7AEALw_wcB#ios+) của firebase để kiểm tra và chắc chắn răng event đã được bắn thành công lên firebase.
+- [ ] Nếu bạn sử dụng firebase analytics để tracking ad_impression thì hãy sử dụng [debug view](https://firebase.google.com/docs/analytics/debugview?utm_source=google&utm_medium=cpc&utm_campaign=Cloud-SS-DR-Firebase-FY26-global-gsem-1713590&utm_content=text-ad&utm_term=KW_firebase&gclsrc=aw.ds&gad_source=1&gad_campaignid=23417478209&gbraid=0AAAAADpUDOgm7st3XuLn4n5XlxNbn9eN1&gclid=Cj0KCQjwguLSBhDLARIsAH-yPrE2pZYMO_d8o-3LWiliw72kEO_J0WN2sIhiL0V5vp_pB96aubB__64aAk7AEALw_wcB#ios+) của firebase để kiểm tra và chắc chắn răng event đã được bắn thành công lên firebase.
 - [ ] Nếu bạn sủ dụng Admob, khi đã connect firebase với Admob thì event ad_impression sẽ được bắn lên tự động. Lúc này hãy trao đổi với bộ phận marketing để nắm được yêu cầu cụ thể và điều chỉnh cho phù hợp.
 
 ## 3. Cách quảng cáo được load về và phân phối từ ad network, nguyên nhân conflict giữa các ad network và cách giải quyết.
@@ -105,7 +105,7 @@ Khi tích hợp quảng cáo và add thêm các adnetwork, bạn sẽ thấy có
 ![image](Image/applovin-adapter.png)
 ![image](Image/ApplovinSDK.png)
 
-- Như 2 ảnh minh họa trên, bạn có thể thấy răng tôi tìm thấy thư viện của adapter Applovin có version 13.6.2 trùng với version unity 8.7.3 mà tôi đã add vào cho mediation chính là Admob, nó được cach trong folder .gradle.
+- Như 2 ảnh minh họa trên, bạn có thể thấy rằng tôi tìm thấy thư viện của adapter Applovin có version 13.6.2 trùng với version unity 8.7.3 mà tôi đã add vào cho mediation chính là Admob, nó được cache trong folder .gradle.
 - Hoàn toàn có thể tìm thấy nhiều adapter khác của các adnetwork được cache trong đó.
 
 ![image](Image/admob-mediation.png)
@@ -122,8 +122,8 @@ Dependencies.xml → EDM4U/Gradle resolve → Maven repository / Gradle cache �
 
 ![image](Image/conflict.png)
 
-Hình bên trên là ví dụ minh họa về vấn đề conflict giữa 2 ad network là facebook và inmobi (vì facebook phụ thuộc vào google ads sdk 12.0 còn inmob phụ thuộc vào google ads sdk 13.0).
-Để resolve được thì buộc phải đưa 2 medation kia về chung một phụ thuộc. Mình đã chọn nâng version facebook để nó phụ thuộc vào google ads sdk 13.0
+Hình bên trên là ví dụ minh họa về vấn đề conflict giữa 2 ad network là facebook và inmobi (vì facebook phụ thuộc vào google ads sdk 12.0 còn inmobi phụ thuộc vào google ads sdk 13.0).
+Để resolve được thì buộc phải đưa 2 mediation kia về chung một phụ thuộc. Mình đã chọn nâng version facebook để nó phụ thuộc vào google ads sdk 13.0
 
 ![image](Image/conflict_2.png)
 
@@ -134,5 +134,5 @@ Hình bên trên là ví dụ mình họa về vấn đề conflict giữa cùng
 
 - Lưu ý: 
 
-- [ ] Hãy kiểm tra changelog của các ad network tìm ra version phù hợp để không bị conflict sự phụ thuộc, đừng nâng version bữa bãi và đợi may mắn.
+- [ ] Hãy kiểm tra changelog của các ad network tìm ra version phù hợp để không bị conflict sự phụ thuộc, đừng nâng version bừa bãi và đợi may mắn.
 - [ ] Vì thư viện của các ad network sẽ được tải từ server về nên có trường hợp mất internet hoặc server bị hỏng sẽ không down được thư viện về. Đây là trường hợp khá phổ biến khi mình thực hiện lệnh `pod install` và đã gặp trường hợp báo đường dẫn đến repo chứa version của ad network đó không tồn tại (dường như sau khi lỗi thì nhà phát hành đã xóa version đó đi).
