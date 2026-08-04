@@ -20,7 +20,7 @@ Hiện tại có thể bấm `Iwave` > `Generate Bundle Version` để tự đ�
 - [ ] 3.1 [Check Link SDK version tracking, không được để cho version các sdk thay đổi khi không có task update sdk ⇒ không tùy tiện update sdk](https://docs.google.com/spreadsheets/d/1Cs3YKDnOBMwlAKxLjKN1Jd84F3whkMAbRg8xUrStsj0/edit?gid=1655533654#gid=1655533654)
 - [ ] 3.2 So sánh size build với các bản trước đó, cần kiểm soát được size build và nắm rõ lý do nếu bản build bị tăng size.
 - [ ] 3.3 Đẩy bản build android lên Firebase Distribution (Đẩy lên testflight đối với bản build ios)
-- [ ] 3.4 Đối với bản build ios yêu cầu test thử trên màn hình ipad thực tế trong trường hợp làm các feature liên quan tới UI/UX (tránh các lỗi hiển thị)
+- [ ] 3.4 Đối với bản build ios, yêu cầu test thử trên màn hình ipad (thiết bị thật) trong trường hợp làm các feature liên quan tới UI/UX (tránh các lỗi hiển thị)
 
 ### 4. Xử lý sau khi đã release
 
