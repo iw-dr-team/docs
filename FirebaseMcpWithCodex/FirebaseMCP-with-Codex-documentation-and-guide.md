@@ -17,7 +17,27 @@ Set-Location $ProjectDir
 node --version
 npm --version
 codex --version
+```
 
+Nếu `node` hoặc `npm` chưa có, cài Node.js LTS bằng `winget`:
+
+```powershell
+Get-Command node -ErrorAction SilentlyContinue
+Get-Command npm -ErrorAction SilentlyContinue
+
+winget install --id OpenJS.NodeJS.LTS -e
+```
+
+Sau khi cài xong, đóng PowerShell hiện tại, mở lại PowerShell mới rồi kiểm tra lại:
+
+```powershell
+node --version
+npm --version
+```
+
+Tiếp tục cài Firebase CLI:
+
+```powershell
 npm install -g firebase-tools@latest
 firebase login
 firebase projects:list
@@ -215,6 +235,16 @@ Sau khi bảng tool xuất hiện, xóa và thêm lại Firebase MCP trong Codex
 $ProjectDir = "D:\Projects\dancing-road\DancingRoadUnity"
 
 # Kiểm tra môi trường
+if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
+    winget install --id OpenJS.NodeJS.LTS -e
+    Write-Host "Da cai Node.js LTS. Hay dong PowerShell, mo lai roi chay tiep khoi lenh nay."
+    exit
+}
+if (-not (Get-Command npm -ErrorAction SilentlyContinue)) {
+    Write-Host "Khong tim thay npm. Hay dong PowerShell, mo lai roi kiem tra lai Node.js."
+    exit
+}
+
 node --version
 npm --version
 codex --version
