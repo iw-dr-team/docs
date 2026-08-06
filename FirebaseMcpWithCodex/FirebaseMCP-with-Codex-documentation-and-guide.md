@@ -293,13 +293,13 @@ Ví dụ 1:
 ```text
 dùng firebase mcp truy cập vào Firebase Crashlytic để lấy tất cả các event có số lượng lớn hơn 50 của bản build 3.2.2 (26072414). kết quả trả về docs/CrashlyticReport.md
 ```
-Thu được kết quả [CrashlyticReport.md](FirebaseMcpWithCodex/CrashlyticReport.md)
+Thu được kết quả [CrashlyticReport.md](https://github.com/iw-dr-team/docs/blob/main/FirebaseMcpWithCodex/CrashlyticReport.md)
 
 Ví dụ 2:
 ```text
 phân tích draft DRi_Communication_System_Update giúp tôi, kết quả thu được trả về file docs/ReportVarTest.md
 ```
 
-Thu được kết quả [ReportVarTest.md](FirebaseMcpWithCodex/ReportVarTest.md)
+Thu được kết quả [ReportVarTest.md](https://github.com/iw-dr-team/docs/blob/main/FirebaseMcpWithCodex/ReportVarTest.md)
 
 Lưu ý: đọc qua tài liệu [Firebase MCP](https://firebase.google.com/docs/ai-assistance/mcp-server) để biết hiện tại đã hỗ trợ những tool nào. Ví dụ như hiện tại chưa có tool hỗ trợ tạo var test trên firebase remote config
