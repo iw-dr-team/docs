@@ -40,6 +40,10 @@ Hiện tại có thể bấm `Iwave` > `Generate Bundle Version` để tự đ�
 - [ ] Run trên terminal lệnh
 
 ```
+firebase crashlytics:symbols:upload --app=1:528923424982:android:46195f809d709f94 "path symbols.zip"
+```
+Ví dụ: 
+```
 firebase crashlytics:symbols:upload --app=1:528923424982:android:46195f809d709f94 "D:\Build_DR1\dr1_323-3.2.3-v26081114-IL2CPP.symbols.zip"
 ```
 trong đó ***D:\Build_DR1\dr1_323-3.2.3-v26081114-IL2CPP.symbols.zip*** là path của file symbols.zip
