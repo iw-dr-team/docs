@@ -36,6 +36,7 @@ Với tinh thần tốt đẹp này, tôi hi vọng tài liệu sẽ được co
 ## 2. HOW - Tôi đã thực hiện thế nào?
 
 Tôi bắt đầu với một số vấn đề mà tôi gặp phải trong quá trình làm việc:
+
 ### Checklist Release DR1
 
 Khi tôi nhận nhiệm vụ build release, tôi nhận thấy có nhiều bước cần thực hiện và nhiều vấn đề cần kiểm tra.
@@ -67,6 +68,9 @@ Trong tài liệu nói về:
 - Kiểm tra tracking ad_impression
 - Cách quảng cáo được load về và phân phối từ ad network
 - Nguyên nhân conflict giữa các ad network và cách giải quyết
+
+Tôi đã gặp nhiều dev trong công ty và cộng đồng, riêng việc xử lý conflict giữa các ad network luôn là vấn đề khó khăn và tốn thời gian giải quyết mỗi khi update version sdk.
+Và tôi muốn chia sẻ về gốc rễ vấn đề này, để các dev có thể hiểu và fix một cách chính xác hơn, nhanh chóng hơn.
 
 ### Firebase
 
