@@ -36,7 +36,7 @@ Với tinh thần tốt đẹp này, tôi hi vọng tài liệu sẽ được co
 ## 2. HOW - Tôi đã thực hiện thế nào?
 
 Tôi bắt đầu với một số vấn đề mà tôi gặp phải trong quá trình làm việc:
-### [Checklist Release DR1](https://github.com/iw-dr-team/docs/blob/main/CheckListReleaseDR1.md)
+### Checklist Release DR1
 
 Khi tôi nhận nhiệm vụ build release, tôi nhận thấy có nhiều bước cần thực hiện và nhiều vấn đề cần kiểm tra.
 Và thật dễ dàng để bỏ sót một bước bất kỳ nào đó. Vì thế tôi đã tạo ra một checklist để đảm bảo rằng mọi bước đều được thực hiện đầy đủ và chính xác.
@@ -50,7 +50,7 @@ Và thật dễ dàng để bỏ sót một bước bất kỳ nào đó. Vì th
 Sau khi tạo ra checklist này, tôi nhận thấy rằng việc bị miss các bước không còn xảy ra nữa. Và tôi cũng gửi checklist này đến các thành viên khác trong team và các dev khác trong team
 đều có thể build đúng chuẩn yêu cầu.
 
-### [Advertising Note](https://github.com/iw-dr-team/docs/blob/main/AdvertisingNote.md)
+### Advertising Note
 
 Với kinh nghiệm làm việc với SDK quảng cáo, tôi nhận thấy rằng việc tích hợp SDK quảng cáo vào game không khó khăn, nhưng việc hiểu và xử lý lỗi liên quan đến SDK thì lại không đơn giản.
 Vì thế tôi tạo ra một tài liệu với khẩu hiệu:
