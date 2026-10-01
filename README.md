@@ -8,7 +8,7 @@
 |4  |[FirebaseMCP with Codex documentation and guide](https://github.com/iw-dr-team/docs/blob/main/FirebaseMcpWithCodex/FirebaseMCP-with-Codex-documentation-and-guide.md)|
 |5  |[Firebase debug view on device ios](https://github.com/unity-package/firebase-debugview-ios)|
 |6  |[Guide To Integrating Codex With LLM Proxy](https://github.com/iw-dr-team/docs/blob/main/GuideToIntegratingCodexWithLLMProxy.md)|
-|7  |[Add New Ball](https://github.com/iw-dr-team/docs/blob/main/AddNewBall.md)|
+|7  |[Add New Ball (DR1)](https://github.com/iw-dr-team/docs/blob/main/AddNewBall.md)|
 
 # From Personal Experience to Team Knowledge
 
