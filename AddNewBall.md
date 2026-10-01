@@ -34,6 +34,22 @@ Code liên quan:
 | VFX (nếu có) | `Assets/Resources/Prefabs/Vfxs/Vfx_{meshName}.prefab` | Bật `isHasVfx` trong BallConfig |
 | Sprite fake specular | `Assets/Resources/Textures/BallSprite/` | Mặc định `ball_transparent` |
 
+#### Lưu ý: tâm (pivot) của ball có họa tiết nhô lên
+
+Một số ball có họa tiết nhô ra khỏi thân cầu (gai, sừng, tai, phụ kiện...). Với các ball này, **bounds center của mesh không trùng với tâm của thân cầu**. Nếu pivot nằm ở bounds center hoặc lệch khỏi tâm thân cầu, ball sẽ quay quanh một điểm lệch tâm khi lăn, tạo cảm giác lộn nhào, giật, khó chịu.
+
+- Đặt pivot (gốc toạ độ của mesh) **đúng tâm của thân cầu**, không dùng tâm của bounds tổng.
+- Ưu tiên sửa pivot trong phần mềm 3D (Blender/Maya) trước khi export. Chỉ dùng offset hoặc rotation trong BallConfig/prefab khi không sửa được model.
+- Kiểm tra trong gameplay: ball lăn phải mượt, phần thân cầu không được "nhấp nhô" lên xuống theo chu kỳ quay.
+
+#### Lưu ý: scale factor của model VFX
+
+Với ball có VFX hoặc model riêng, chỉnh **Scale Factor** trong Import Settings (tab *Model*) của file model sao cho **bounds size của mesh xấp xỉ 1** (tương đương ball chuẩn).
+
+- Kiểm tra: chọn mesh trong Project, xem *Bounds* ở Inspector, hoặc kéo vào scene rồi xem kích thước renderer.
+- Không bù kích thước bằng scale của Transform trong prefab, vì các ball dùng chung `BallCustom` và `_shopVfxChildScale` được tính theo kích thước chuẩn.
+- Nếu bounds lệch nhiều, ball sẽ quá to hoặc quá nhỏ so với đường, sai va chạm về mặt hình ảnh, và lệch trong ô preview của shop.
+
 ### Bước 2: Tạo BallConfig
 
 1. Duplicate một ball tương tự (ví dụ `Ball_73.asset`), rồi đổi tên thành `Ball_{N-1}.asset`.
@@ -99,11 +115,44 @@ File cần cập nhật:
 - Nếu làm ngược lại, người dùng bản cũ sẽ thấy item không có icon, và khi chọn ball thì game quay về BallBasic.
 - Dùng `RemoteData.ShopConfig_RemoveID` (danh sách Id, phân tách bằng dấu phẩy) để ẩn item khi cần.
 
-### Bước 7: Kiểm tra
+### Bước 7: Test bằng shopconfig local
+
+Thông thường CSV remote sẽ ghi đè bản local, nên muốn thấy ball mới khi chưa sửa được remote cần tạm thời chặn bước tải remote.
+
+**Cách 1: sửa tạm `ShopData.LoadOnlineData()`** (đang dùng)
+
+```csharp
+public void LoadOnlineData()
+{
+    OnGetListItemDone();   // TEMP: test shopconfig local
+    return;                // TEMP: test shopconfig local
+    ...
+}
+```
+
+> ⚠️ Đây là thay đổi **chỉ để test**. **Discard trước khi commit và release** (`git checkout -- Assets/Features/Shop/Scripts/ShopData.cs`). Nếu lọt vào bản release, người chơi sẽ không bao giờ nhận CSV remote nữa.
+
+**Cách 2: tick `Is Using Local CSV`** trong `SplashController` (scene `Assets/Scenes/Splash.unity`). Cờ này cũng tắt việc tải các config online khác (artist, song list...), và cũng **không được commit**.
+
+**Xoá cache trước khi test**
+
+Kể cả khi đã chặn remote, `LoadDefaultData()` vẫn **đọc file cache trước** rồi mới đọc `Resources/shopconfig.csv`. Nếu máy từng tải CSV remote, cần xoá cache:
+
+- Editor: `%USERPROFILE%\AppData\LocalLow\Inwave\Dancing Road\shopconfig.csv` (kiểm tra bằng `Debug.Log(Application.persistentDataPath)`).
+- Thiết bị: xoá dữ liệu app hoặc gỡ và cài lại.
+
+**Lỗi CSV hay gặp (parse lỗi nhưng không báo)**
+
+- Sai tên `PriceType` (ví dụ `GO` thay vì `GOLD`): item bị chuyển thành `ADS`, giá `0`.
+- `Category` chưa có trong enum `CategoryType` (ví dụ `HALLOWEEN2026`): item rơi về `NONE`, mất badge và thứ tự ưu tiên sự kiện.
+
+### Bước 8: Kiểm tra
 
 - [ ] Shop: icon hiển thị đúng, giá và loại tiền đúng, đúng tab Ball, đúng category/badge sự kiện.
 - [ ] Mua/unlock ball bằng mọi `PriceType` đã cấu hình.
 - [ ] Equip, rồi vào gameplay: mesh, material, màu, rim light, rotation đều đúng.
+- [ ] Ball lăn mượt, không bị lộn nhào/nhấp nhô (pivot đúng tâm thân cầu).
+- [ ] Kích thước ball ngang bằng ball chuẩn (bounds size ≈ 1).
 - [ ] Console không có log `[InGameAssets] Missing ball assets for ball N`.
 - [ ] Preview 3D trong shop (`_shopMaterials`, `_shopVfxChildScale`).
 - [ ] Các màn khác có hiển thị ball: EndGame, ColorGate (`ColorGateBallAssets`).
@@ -122,7 +171,7 @@ Thêm ball theo các bước trên **không cần sửa file nào trong `docs/Pr
 
 | # | Việc | File |
 |---|---|---|
-| 1 | Mesh | `Resources/Models/Ball_{N}.mesh` |
+| 1 | Mesh (pivot đúng tâm thân cầu, bounds ≈ 1) | `Resources/Models/Ball_{N}.mesh` |
 | 2 | Texture (nếu có) | `Resources/Textures/Ball/ball_{N-1}.png` |
 | 3 | Material | `Materials/Ball/` |
 | 4 | VFX (nếu có) | `Resources/Prefabs/Vfxs/Vfx_{meshName}.prefab` |
@@ -132,3 +181,4 @@ Thêm ball theo các bước trên **không cần sửa file nào trong `docs/Pr
 | 8 | CSV local | `Resources/shopconfig.csv` (+ `shopconfig_thy1.csv`) |
 | 9 | Category mới (nếu có) | `Enums.cs`, `ShopItemSortService.cs`, `ShopObjectV3.cs` |
 | 10 | CSV online | `RemoteData.ShopUI_ShopConfigUrl`, cập nhật **sau** khi build đã phát hành |
+| 11 | Discard thay đổi test | `ShopData.cs` / `Splash.unity` (`isUsingLocalCSV`) trước khi commit |
