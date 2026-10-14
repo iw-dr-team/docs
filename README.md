@@ -8,6 +8,7 @@
 |4  |[FirebaseMCP with Codex documentation and guide](https://github.com/iw-dr-team/docs/blob/main/FirebaseMcpWithCodex/FirebaseMCP-with-Codex-documentation-and-guide.md)|
 |5  |[Firebase debug view on device ios](https://github.com/unity-package/firebase-debugview-ios)|
 |6  |[GuideToIntegratingCodexWithLLMProxy](https://github.com/iw-dr-team/docs/blob/main/GuideToIntegratingCodexWithLLMProxy.md)|
+|7  |[Struct Parameterless Constructor](StructParameterlessConstructor.md)|
 
 # From Personal Experience to Team Knowledge
 
