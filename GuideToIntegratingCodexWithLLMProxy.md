@@ -13,9 +13,10 @@ name = "Local Proxy"
 base_url = "https://llmproxy.inwave.vn/v1"
 env_key = "OPENAI_API_KEY"
 wire_api = "responses"
-```
+````
+***Lưu ý 1***: Hãy để ý phần bạn dán vào có thể sẽ trùng với những setup trước đó, hãy remove các phần bị trùng tương đồng đi. Ví dụ remove `mode = "gpt-5.5"` để thay thế bằng `mode = "cx/gpt-5.5"`
 
-Lưu ý: Bạn có để đổi mode khác nhau tùy theo nhu cầu như `cx/gpt-5.5` hoặc `cx/gpt-5.6-sol`
+***Lưu ý 2***: Bạn có để đổi mode khác nhau tùy theo nhu cầu như `cx/gpt-5.5` hoặc `cx/gpt-5.6-sol`
 
 ### Bước 4: Set OPENAI_API_KEY với lệnh 
 Windows:
