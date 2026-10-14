@@ -9,7 +9,7 @@
 |5  |[Firebase debug view on device ios](https://github.com/unity-package/firebase-debugview-ios)|
 |6  |[Guide To Integrating Codex With LLM Proxy](https://github.com/iw-dr-team/docs/blob/main/GuideToIntegratingCodexWithLLMProxy.md)|
 |7  |[Add New Ball (DR1)](https://github.com/iw-dr-team/docs/blob/main/AddNewBall.md)|
-|8  |[Struct Parameterless Constructor](https://github.com/iw-dr-team/docs/blob/main/StructParameterlessConstructor.md)|
+|8  |[StructParameterlessConstructor](https://github.com/iw-dr-team/docs/blob/main/StructParameterlessConstructor.md)|
 # From Personal Experience to Team Knowledge
 
 Chào tất cả anh em, tôi là Đức (developer của team Dancing Road). Thời điểm bạn đọc tài liệu này có thể tôi vẫn còn làm việc tại Dancing Road hoặc đã rời đi.
